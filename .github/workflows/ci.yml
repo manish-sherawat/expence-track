@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  quality-gate:
+    name: Quality Gate & Zero-Material Guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify Zero Material and Zero Cupertino
+        run: dart run tool/check_no_material.dart
+
+      - name: Static Analysis
+        run: flutter analyze --fatal-infos
+
+      - name: Unit & Widget Tests
+        run: flutter test
+
+      - name: Build Web
+        run: flutter build web --release

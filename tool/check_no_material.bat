@@ -1,0 +1,3 @@
+@echo off
+echo Running zero-Material and zero-Cupertino check...
+dart run tool/check_no_material.dart

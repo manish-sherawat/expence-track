@@ -1,0 +1,32 @@
+name: salary_tracker
+description: "Production-quality personal finance and salary tracker app built with zero Material and zero Cupertino widgets."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.13.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.6.1
+  go_router: ^14.8.1
+  intl: ^0.20.2
+  flutter_svg: ^2.0.17
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: false
+  assets:
+    - assets/fonts/
+    - assets/icons/
+    - assets/illustrations/
+    - assets/receipts/
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Variable.ttf
