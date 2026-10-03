@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import '../design_system/components/components.dart';
+import '../design_system/gallery/component_gallery_screen.dart';
 import '../design_system/tokens/tokens.dart';
 
 /// App Router configured with GoRouter and custom page builders.
@@ -19,10 +21,28 @@ final GoRouter appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: '/gallery',
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        return CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: const ComponentGalleryScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(1.0, 0.0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            );
+          },
+        );
+      },
+    ),
   ],
 );
 
-/// Placeholder screen for Phase 0 verification.
+/// Placeholder screen for Phase 0 verification with button to open Component Gallery.
 class Phase0PlaceholderScreen extends StatelessWidget {
   const Phase0PlaceholderScreen({super.key});
 
@@ -49,7 +69,7 @@ class Phase0PlaceholderScreen extends StatelessWidget {
                 border: Border.all(color: colors.border),
               ),
               child: Text(
-                '✦ PHASE 0 INITIALIZED',
+                '✦ PHASE 1 FOUNDATION ACTIVE',
                 style: text.caption.copyWith(
                   color: colors.info,
                   fontWeight: FontWeight.w600,
@@ -126,6 +146,14 @@ class Phase0PlaceholderScreen extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(height: AppSpacing.s28),
+            AppButton(
+              label: 'Open Component Gallery',
+              trailingIcon: AppIconType.chevronRight,
+              onPressed: () {
+                context.push('/gallery');
+              },
             ),
           ],
         ),

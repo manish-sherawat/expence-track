@@ -16,7 +16,7 @@ void main() {
 
     // Verify custom tokens are accessible and Phase 0 content renders
     expect(find.text('Salary Tracker'), findsOneWidget);
-    expect(find.text('✦ PHASE 0 INITIALIZED'), findsOneWidget);
+    expect(find.text('✦ PHASE 1 FOUNDATION ACTIVE'), findsOneWidget);
     expect(find.text('INCOME'), findsOneWidget);
     expect(find.text('EXPENSES'), findsOneWidget);
     expect(find.text('SAVED'), findsOneWidget);
