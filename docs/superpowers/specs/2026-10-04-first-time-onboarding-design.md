@@ -55,7 +55,7 @@ The existing SQLite database via Drift already provides an `AppSettings` table (
 The onboarding experience is orchestrated inside `OnboardingScreen` using a horizontal `PageView` with `NeverScrollableScrollPhysics` (navigation is button-driven with step-back support):
 
 ### Step 1: Welcome & Value Vision
-- **Visual**: Hero illustration (`assets/illustrations/welcome_vault.png`) framed in a subtle glowing glass surface.
+- **Visual**: Hero illustration (`assets/illustrations/welcome_vault.jpg`) framed in a subtle glowing glass surface.
 - **Copy**:
   - Title: *"Master Your Paycheck"*
   - Subtitle: *"Know exactly what you can safely spend every day until your next payday."*
@@ -89,7 +89,7 @@ The onboarding experience is orchestrated inside `OnboardingScreen` using a hori
      - Subtext: *"Best for users ready to start logging actual transactions immediately."*
 
 ### Step 5: Celebration & Launch
-- **Visual**: Confetti particle burst via custom `CustomPainter`, checkmark shield illustration (`assets/illustrations/all_set_check.png`).
+- **Visual**: Confetti particle burst via custom `CustomPainter`, checkmark shield illustration (`assets/illustrations/all_set_check.jpg`).
 - **Personalized Summary Glass Card**:
   - Configured Salary: `[Symbol]X,XXX / month`
   - Next Payday: `In X days (Day Y)`
@@ -117,9 +117,9 @@ The onboarding experience is orchestrated inside `OnboardingScreen` using a hori
 ## 5. Visual Assets & Illustrations
 
 Custom illustrations generated and placed in `assets/illustrations/`:
-1. `welcome_vault.png` — Sleek, dark-mode 3D vault with neon accent glows and floating coins.
-2. `salary_growth.png` — Upward neon graph trajectory with glowing calendar badge.
-3. `all_set_check.png` — Glassmorphic badge with celebratory sparkles and checkmark.
+1. `welcome_vault.jpg` — Sleek, dark-mode 3D vault with neon accent glows and floating coins.
+2. `salary_growth.jpg` — Upward neon graph trajectory with glowing calendar badge.
+3. `all_set_check.jpg` — Glassmorphic badge with celebratory sparkles and checkmark.
 
 ---
 
