@@ -13,11 +13,19 @@ dependencies:
   go_router: ^14.8.1
   intl: ^0.20.2
   flutter_svg: ^2.0.17
+  drift: ^2.35.1
+  drift_flutter: ^0.3.1
+  google_mlkit_document_scanner: ^0.6.1
+  google_mlkit_text_recognition: ^0.17.1
+  image: ^4.10.1
+  path_provider: ^2.1.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  drift_dev: ^2.35.1
+  build_runner: ^2.16.1
 
 flutter:
   uses-material-design: false
