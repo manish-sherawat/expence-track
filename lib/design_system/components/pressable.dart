@@ -8,22 +8,26 @@ class Pressable extends StatefulWidget {
   const Pressable({
     super.key,
     required this.child,
-    this.onPressed,
+    VoidCallback? onPressed,
+    VoidCallback? onTap,
     this.onLongPress,
     this.enabled = true,
     this.enableHaptic = true,
+    this.hapticType,
     this.scaleDown = AppMotion.pressScale,
     this.opacityDown = AppMotion.pressOpacity,
     this.duration = AppMotion.pressDuration,
     this.semanticLabel,
     this.behavior = HitTestBehavior.opaque,
-  });
+  }) : onPressed = onPressed ?? onTap;
 
   final Widget child;
   final VoidCallback? onPressed;
+  VoidCallback? get onTap => onPressed;
   final VoidCallback? onLongPress;
   final bool enabled;
   final bool enableHaptic;
+  final AppHapticType? hapticType;
   final double scaleDown;
   final double opacityDown;
   final Duration duration;
@@ -43,7 +47,11 @@ class _PressableState extends State<Pressable> {
     if (!_isInteractive) return;
     setState(() => _isPressed = true);
     if (widget.enableHaptic) {
-      AppHaptics.lightImpact();
+      if (widget.hapticType != null) {
+        AppHaptics.perform(widget.hapticType!);
+      } else {
+        AppHaptics.lightImpact();
+      }
     }
   }
 

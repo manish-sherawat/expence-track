@@ -123,9 +123,15 @@ class AppButton extends StatelessWidget {
           AppIcon(leadingIcon!, size: iconSize, color: fg),
           const SizedBox(width: AppSpacing.s8),
         ],
-        Text(
-          label,
-          style: labelStyle,
+        Flexible(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              label,
+              style: labelStyle,
+              maxLines: 1,
+            ),
+          ),
         ),
         if (!isLoading && trailingIcon != null) ...[
           const SizedBox(width: AppSpacing.s8),

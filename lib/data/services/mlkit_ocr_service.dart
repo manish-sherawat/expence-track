@@ -5,19 +5,22 @@ import '../../domain/services/i_ocr_service.dart';
 
 /// On-device OCR service utilizing Google ML Kit Latin script recognizer.
 class MlKitOcrService implements IOcrService {
-  final TextRecognizer _recognizer;
+  final TextRecognizer? _recognizer;
   final bool isSupportedPlatform;
 
   MlKitOcrService({
     TextRecognizer? recognizer,
     bool? isSupportedOverride,
-  })  : _recognizer = recognizer ?? TextRecognizer(script: TextRecognitionScript.latin),
-        isSupportedPlatform = isSupportedOverride ??
-            (!kIsWeb && (Platform.isAndroid || Platform.isIOS));
+  })  : isSupportedPlatform = isSupportedOverride ??
+            (!kIsWeb && (Platform.isAndroid || Platform.isIOS)),
+        _recognizer = recognizer ??
+            ((isSupportedOverride ?? (!kIsWeb && (Platform.isAndroid || Platform.isIOS)))
+                ? TextRecognizer(script: TextRecognitionScript.latin)
+                : null);
 
   @override
   Future<String> recognizeTextFromFile(String filePath) async {
-    if (!isSupportedPlatform) {
+    if (!isSupportedPlatform || _recognizer == null) {
       // Graceful fallback for web/desktop/testing
       return _fallbackTextForTesting(filePath);
     }
@@ -33,7 +36,7 @@ class MlKitOcrService implements IOcrService {
 
   @override
   Future<String> recognizeTextFromBytes(Uint8List imageBytes) async {
-    if (!isSupportedPlatform) {
+    if (!isSupportedPlatform || _recognizer == null) {
       return _fallbackTextForTesting('in_memory_bytes');
     }
 
@@ -53,6 +56,9 @@ class MlKitOcrService implements IOcrService {
 
   @override
   Future<void> dispose() async {
+    if (!isSupportedPlatform || _recognizer == null) {
+      return;
+    }
     try {
       await _recognizer.close();
     } catch (_) {}
@@ -62,10 +68,12 @@ class MlKitOcrService implements IOcrService {
     return '''
 Whole Foods Market
 1. Organic Oat Milk   \$4.99
-2. Artisan Bread      \$5.50
-SUBTOTAL: \$10.49
-TAX: \$0.85
-TOTAL: \$11.34
+2. Honeycrisp Apples  \$5.40
+3. Artisan Bread      \$5.50
+4. Cold Brew Coffee   \$4.50
+SUBTOTAL: \$20.39
+TAX: \$1.73
+TOTAL: \$22.12
 ''';
   }
 }

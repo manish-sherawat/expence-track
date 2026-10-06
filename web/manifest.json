@@ -1,11 +1,11 @@
 {
-    "name": "salary_tracker",
-    "short_name": "salary_tracker",
+    "name": "Expense & Money Tracker",
+    "short_name": "Expense Tracker",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#0B0D12",
+    "theme_color": "#5A45FF",
+    "description": "AI-Powered Personal Finance & Expense Tracker with zero-Material high-fidelity design.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

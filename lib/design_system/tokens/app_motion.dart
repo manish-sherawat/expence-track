@@ -11,6 +11,8 @@ class AppMotion {
   static const Duration countUp = Duration(milliseconds: 600);
   static const Duration quick = Duration(milliseconds: 150);
   static const Duration normal = Duration(milliseconds: 250);
+  static const Duration durationFast = quick;
+  static const Duration durationNormal = normal;
 
   // Press feedback
   static const double pressScale = 0.97;
@@ -19,6 +21,8 @@ class AppMotion {
   // Curves
   static const Curve easeOut = Curves.easeOutCubic;
   static const Curve easeInOut = Curves.easeInOutCubic;
+  static const Curve springBouncy = Curves.easeOutBack;
+  static const Curve springGentle = Curves.easeOutCubic;
 
   // Springs (mass 1, stiffness 320, damping 28)
   static const SpringDescription spring = SpringDescription(

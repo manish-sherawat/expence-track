@@ -9,9 +9,13 @@ enum AppIconType {
   bell,
   sparkle,
   arrowLeft,
+  arrowRight,
+  arrowUp,
+  arrowDown,
   moreDots,
   chevronRight,
   chevronDown,
+  chevronUp,
   home,
   chart,
   plus,
@@ -25,6 +29,8 @@ enum AppIconType {
   rent,
   transport,
   shopping,
+  receipt,
+  shield,
 }
 
 /// Custom vector outline icon component rendered via CustomPainter.
@@ -32,6 +38,14 @@ class AppIcon extends StatelessWidget {
   const AppIcon(
     this.type, {
     super.key,
+    this.size = 20.0,
+    this.color,
+    this.strokeWidth = 1.75,
+  });
+
+  const AppIcon.named({
+    super.key,
+    required this.type,
     this.size = 20.0,
     this.color,
     this.strokeWidth = 1.75,
@@ -141,6 +155,33 @@ class _AppIconPainter extends CustomPainter {
         canvas.drawLine(Offset(w * 0.35, h * 0.5), Offset(w * 0.78, h * 0.5), strokePaint);
         break;
 
+      case AppIconType.arrowRight:
+        final path = Path()
+          ..moveTo(w * 0.38, h * 0.22)
+          ..lineTo(w * 0.65, h * 0.5)
+          ..lineTo(w * 0.38, h * 0.78);
+        canvas.drawPath(path, strokePaint);
+        canvas.drawLine(Offset(w * 0.65, h * 0.5), Offset(w * 0.22, h * 0.5), strokePaint);
+        break;
+
+      case AppIconType.arrowUp:
+        final path = Path()
+          ..moveTo(w * 0.22, h * 0.62)
+          ..lineTo(w * 0.5, h * 0.35)
+          ..lineTo(w * 0.78, h * 0.62);
+        canvas.drawPath(path, strokePaint);
+        canvas.drawLine(Offset(w * 0.5, h * 0.35), Offset(w * 0.5, h * 0.78), strokePaint);
+        break;
+
+      case AppIconType.arrowDown:
+        final path = Path()
+          ..moveTo(w * 0.22, h * 0.38)
+          ..lineTo(w * 0.5, h * 0.65)
+          ..lineTo(w * 0.78, h * 0.38);
+        canvas.drawPath(path, strokePaint);
+        canvas.drawLine(Offset(w * 0.5, h * 0.65), Offset(w * 0.5, h * 0.22), strokePaint);
+        break;
+
       case AppIconType.moreDots:
         final r = strokeWidth * 0.8;
         canvas.drawCircle(Offset(w * 0.25, h * 0.5), r, fillPaint);
@@ -164,6 +205,33 @@ class _AppIconPainter extends CustomPainter {
         canvas.drawPath(path, strokePaint);
         break;
 
+      case AppIconType.chevronUp:
+        final path = Path()
+          ..moveTo(w * 0.25, h * 0.65)
+          ..lineTo(w * 0.5, h * 0.38)
+          ..lineTo(w * 0.75, h * 0.65);
+        canvas.drawPath(path, strokePaint);
+        break;
+
+      case AppIconType.receipt:
+        // Paper sheet outline with jagged bottom
+        final path = Path()
+          ..moveTo(w * 0.22, h * 0.15)
+          ..lineTo(w * 0.78, h * 0.15)
+          ..lineTo(w * 0.78, h * 0.85)
+          ..lineTo(w * 0.68, h * 0.78)
+          ..lineTo(w * 0.58, h * 0.85)
+          ..lineTo(w * 0.48, h * 0.78)
+          ..lineTo(w * 0.38, h * 0.85)
+          ..lineTo(w * 0.28, h * 0.78)
+          ..lineTo(w * 0.22, h * 0.85)
+          ..close();
+        canvas.drawPath(path, strokePaint);
+        canvas.drawLine(Offset(w * 0.32, h * 0.32), Offset(w * 0.68, h * 0.32), strokePaint);
+        canvas.drawLine(Offset(w * 0.32, h * 0.46), Offset(w * 0.68, h * 0.46), strokePaint);
+        canvas.drawLine(Offset(w * 0.32, h * 0.60), Offset(w * 0.54, h * 0.60), strokePaint);
+        break;
+
       case AppIconType.home:
         final path = Path()
           ..moveTo(w * 0.15, h * 0.45)
@@ -173,8 +241,16 @@ class _AppIconPainter extends CustomPainter {
           ..lineTo(w * 0.15, h * 0.85)
           ..close();
         canvas.drawPath(path, strokePaint);
-        // Door
-        canvas.drawLine(Offset(w * 0.5, h * 0.85), Offset(w * 0.5, h * 0.6), strokePaint);
+        // Arched Door
+        final doorPath = Path()
+          ..moveTo(w * 0.38, h * 0.85)
+          ..lineTo(w * 0.38, h * 0.58)
+          ..arcToPoint(
+            Offset(w * 0.62, h * 0.58),
+            radius: Radius.circular(w * 0.12),
+          )
+          ..lineTo(w * 0.62, h * 0.85);
+        canvas.drawPath(doorPath, strokePaint);
         break;
 
       case AppIconType.chart:
@@ -304,6 +380,16 @@ class _AppIconPainter extends CustomPainter {
         canvas.drawPath(path, strokePaint);
         canvas.drawCircle(Offset(w * 0.44, h * 0.78), strokeWidth * 1.2, fillPaint);
         canvas.drawCircle(Offset(w * 0.74, h * 0.78), strokeWidth * 1.2, fillPaint);
+        break;
+
+      case AppIconType.shield:
+        final path = Path()
+          ..moveTo(w * 0.5, h * 0.15)
+          ..lineTo(w * 0.82, h * 0.28)
+          ..cubicTo(w * 0.82, h * 0.62, w * 0.5, h * 0.86, w * 0.5, h * 0.86)
+          ..cubicTo(w * 0.5, h * 0.86, w * 0.18, h * 0.62, w * 0.18, h * 0.28)
+          ..close();
+        canvas.drawPath(path, strokePaint);
         break;
     }
   }

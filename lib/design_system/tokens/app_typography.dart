@@ -19,6 +19,16 @@ class AppTypography {
 
   static const String fontFamily = 'Inter';
 
+  // Static base styles
+  static const TextStyle displayStyle = TextStyle(fontFamily: fontFamily, fontSize: 44, fontWeight: FontWeight.w500, letterSpacing: -1.0);
+  static const TextStyle title1Style = TextStyle(fontFamily: fontFamily, fontSize: 34, fontWeight: FontWeight.w600, letterSpacing: -0.6);
+  static const TextStyle title2Style = TextStyle(fontFamily: fontFamily, fontSize: 24, fontWeight: FontWeight.w600, letterSpacing: -0.4);
+  static const TextStyle title3Style = TextStyle(fontFamily: fontFamily, fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: -0.3);
+  static const TextStyle headlineStyle = TextStyle(fontFamily: fontFamily, fontSize: 17, fontWeight: FontWeight.w600, letterSpacing: -0.2);
+  static const TextStyle bodyMediumStyle = TextStyle(fontFamily: fontFamily, fontSize: 15, fontWeight: FontWeight.w400);
+  static const TextStyle subheadlineStyle = TextStyle(fontFamily: fontFamily, fontSize: 14, fontWeight: FontWeight.w400);
+  static const TextStyle captionStyle = TextStyle(fontFamily: fontFamily, fontSize: 12, fontWeight: FontWeight.w400);
+
   final TextStyle displayAmount;
   final TextStyle titleAmount;
   final TextStyle statAmount;
@@ -30,6 +40,18 @@ class AppTypography {
   final TextStyle label;
   final TextStyle caption;
   final TextStyle overline;
+
+  TextStyle get headline => screenTitle.copyWith(fontSize: 17, fontWeight: FontWeight.w600);
+  TextStyle get subheadline => body.copyWith(fontSize: 14);
+  TextStyle get bodyMedium => body.copyWith(fontSize: 15);
+  TextStyle get bodyLarge => body.copyWith(fontSize: 17, fontWeight: FontWeight.w500);
+  TextStyle get bodySmall => caption;
+  TextStyle get title1 => titleAmount.copyWith(fontSize: 34, fontWeight: FontWeight.w600);
+  TextStyle get title2 => statAmount.copyWith(fontSize: 24, fontWeight: FontWeight.w600);
+  TextStyle get title3 => statAmount.copyWith(fontSize: 20, fontWeight: FontWeight.w600);
+  TextStyle get h1 => title1;
+  TextStyle get h2 => title2;
+  TextStyle get h3 => title3;
 
   factory AppTypography.fromColors(AppColors colors) {
     return AppTypography(

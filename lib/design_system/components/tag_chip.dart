@@ -9,6 +9,7 @@ enum TagChipVariant {
   info,
   warning,
   positive,
+  ai,
 }
 
 /// Pill chip component for categories and AI sparkle indicators.
@@ -58,6 +59,7 @@ class TagChip extends StatelessWidget {
         fg = colors.textSecondary;
         border = colors.border;
         break;
+      case TagChipVariant.ai:
       case TagChipVariant.info:
         bg = colors.infoTint;
         fg = colors.info;
@@ -75,6 +77,8 @@ class TagChip extends StatelessWidget {
         break;
     }
 
+    final showSparkle = hasSparkle || variant == TagChipVariant.ai;
+
     final content = Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.s10,
@@ -89,7 +93,7 @@ class TagChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (hasSparkle) ...[
+          if (showSparkle) ...[
             AppIcon(
               AppIconType.sparkle,
               size: 11.0,

@@ -243,7 +243,7 @@ class _ReceiptScannerReviewScreenState extends State<ReceiptScannerReviewScreen>
                           onPressed: () {
                             if (_result != null) {
                               widget.onConfirm?.call(_result!);
-                              Navigator.of(context).maybePop(_result);
+                              Navigator.of(context).pop(_result);
                             }
                           },
                         ),

@@ -1,36 +1,130 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import '../design_system/components/components.dart';
+
 import '../design_system/gallery/component_gallery_screen.dart';
-import '../design_system/tokens/tokens.dart';
+import '../features/onboarding/screens/onboarding_screen.dart';
+import '../ui/screens/activity/activity_screen.dart';
+import '../ui/screens/add_transaction/add_transaction_screen.dart';
+import '../ui/screens/home/home_screen.dart';
+import '../ui/screens/main_shell_screen.dart';
+import '../ui/screens/notifications/notifications_screen.dart';
+import '../ui/screens/profile/profile_screen.dart';
+import '../ui/screens/search/search_screen.dart';
+import '../ui/screens/see_all/categories_list_screen.dart';
+import '../ui/screens/scanner/receipt_scanner_review_screen.dart';
+import '../ui/screens/see_all/transactions_list_screen.dart';
+import '../ui/screens/spending_insight/spending_insight_screen.dart';
+import '../ui/screens/transaction_detail/transaction_detail_screen.dart';
 
 /// App Router configured with GoRouter and custom page builders.
 /// Never uses MaterialPageRoute or CupertinoPageRoute.
-final GoRouter appRouter = GoRouter(
-  initialLocation: '/',
+GoRouter createAppRouter({String initialLocation = '/'}) => GoRouter(
+  initialLocation: initialLocation,
   routes: [
-    GoRoute(
-      path: '/',
-      pageBuilder: (BuildContext context, GoRouterState state) {
-        return CustomTransitionPage<void>(
-          key: state.pageKey,
-          child: const Phase0PlaceholderScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
-        );
+    // -------------------------------------------------------------------------
+    // Main App Shell with Floating FrostedNavBar
+    // -------------------------------------------------------------------------
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return MainShellScreen(navigationShell: navigationShell);
       },
+      branches: [
+        // Tab 0: Home (Screen 1)
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/',
+              pageBuilder: (context, state) => CustomTransitionPage<void>(
+                key: state.pageKey,
+                child: const HomeScreen(),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+              ),
+            ),
+          ],
+        ),
+
+        // Tab 1: Spending Insights (Screen 3)
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/insight',
+              pageBuilder: (context, state) => CustomTransitionPage<void>(
+                key: state.pageKey,
+                child: const SpendingInsightScreen(),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+              ),
+            ),
+          ],
+        ),
+
+        // Tab 2: Activity & Receipts
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/activity',
+              pageBuilder: (context, state) => CustomTransitionPage<void>(
+                key: state.pageKey,
+                child: const ActivityScreen(),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+              ),
+            ),
+          ],
+        ),
+
+        // Tab 3: Profile & Settings
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/profile',
+              pageBuilder: (context, state) => CustomTransitionPage<void>(
+                key: state.pageKey,
+                child: const ProfileScreen(),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
     ),
+
+    // -------------------------------------------------------------------------
+    // Fullscreen and Modal Routes
+    // -------------------------------------------------------------------------
     GoRoute(
       path: '/gallery',
-      pageBuilder: (BuildContext context, GoRouterState state) {
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: const ComponentGalleryScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/transaction/:id',
+      pageBuilder: (context, state) {
+        final id = state.pathParameters['id'] ?? '';
         return CustomTransitionPage<void>(
           key: state.pageKey,
-          child: const ComponentGalleryScreen(),
+          child: TransactionDetailScreen(transactionId: id),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return SlideTransition(
               position: Tween<Offset>(
-                begin: const Offset(1.0, 0.0),
+                begin: const Offset(0.0, 1.0),
                 end: Offset.zero,
               ).animate(animation),
               child: child,
@@ -39,125 +133,92 @@ final GoRouter appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: '/search',
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: const SearchScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/notifications',
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: const NotificationsScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/add-transaction',
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: const AddTransactionScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0.0, 1.0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/categories',
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: const CategoriesListScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/transactions',
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: const TransactionsListScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/onboarding',
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: const OnboardingScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/scanner/review',
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>? ?? {};
+        final imagePath = extra['imagePath'] as String? ?? '';
+        return CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: ReceiptScannerReviewScreen(
+            imagePath: imagePath,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        );
+      },
+    ),
   ],
 );
 
-/// Placeholder screen for Phase 0 verification with button to open Component Gallery.
-class Phase0PlaceholderScreen extends StatelessWidget {
-  const Phase0PlaceholderScreen({super.key});
+/// Default app router instance used across the app and widget tests.
+final GoRouter appRouter = createAppRouter(initialLocation: '/');
 
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final text = context.text;
 
-    return Container(
-      color: colors.bg,
-      alignment: Alignment.center,
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.s16,
-                vertical: AppSpacing.s8,
-              ),
-              decoration: BoxDecoration(
-                color: colors.surface,
-                borderRadius: AppRadii.pill,
-                border: Border.all(color: colors.border),
-              ),
-              child: Text(
-                '✦ PHASE 1 FOUNDATION ACTIVE',
-                style: text.caption.copyWith(
-                  color: colors.info,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.s16),
-            Text(
-              'Salary Tracker',
-              style: text.displayAmount.copyWith(fontSize: 32),
-            ),
-            const SizedBox(height: AppSpacing.s8),
-            Text(
-              'Zero Material • Zero Cupertino • 100% Custom',
-              style: text.label,
-            ),
-            const SizedBox(height: AppSpacing.s24),
-            Container(
-              padding: const EdgeInsets.all(AppSpacing.cardPadding),
-              margin: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.screenHorizontal,
-              ),
-              decoration: BoxDecoration(
-                color: colors.surface,
-                borderRadius: AppRadii.card,
-                border: Border.all(color: colors.border),
-                boxShadow: AppShadows.card,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('INCOME', style: text.overline),
-                      const SizedBox(height: AppSpacing.s4),
-                      Text(
-                        r'+$8,429',
-                        style: text.rowTitle.copyWith(color: colors.positive),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: 1,
-                    height: 32,
-                    color: colors.border,
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('EXPENSES', style: text.overline),
-                      const SizedBox(height: AppSpacing.s4),
-                      Text(
-                        r'-$3,218',
-                        style: text.rowTitle.copyWith(color: colors.negative),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: 1,
-                    height: 32,
-                    color: colors.border,
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('SAVED', style: text.overline),
-                      const SizedBox(height: AppSpacing.s4),
-                      Text(
-                        r'$2,190',
-                        style: text.rowTitle,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: AppSpacing.s28),
-            AppButton(
-              label: 'Open Component Gallery',
-              trailingIcon: AppIconType.chevronRight,
-              onPressed: () {
-                context.push('/gallery');
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

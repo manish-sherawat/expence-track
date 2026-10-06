@@ -29,13 +29,22 @@ enum AmountSignStyle {
 class AmountText extends StatelessWidget {
   const AmountText({
     super.key,
-    required this.amountMinor,
+    int? amountMinor,
+    int? cents,
     this.currencySymbol = r'$',
     this.size = AmountTextSize.display,
-    this.signStyle = AmountSignStyle.neutral,
+    AmountSignStyle? signStyle,
+    bool isSigned = false,
+    bool isPositive = false,
     this.overrideColor,
     this.showCents = true,
-  });
+    this.style,
+    this.centsStyle,
+  })  : amountMinor = amountMinor ?? (cents != null ? (isSigned && !isPositive ? -cents : cents) : 0),
+        signStyle = signStyle ??
+            (isSigned
+                ? (isPositive ? AmountSignStyle.signedWithColor : AmountSignStyle.negativeColorOnly)
+                : AmountSignStyle.neutral);
 
   /// Amount in integer minor units (cents, e.g. 1289290 = $12,892.90).
   final int amountMinor;
@@ -44,6 +53,8 @@ class AmountText extends StatelessWidget {
   final AmountSignStyle signStyle;
   final Color? overrideColor;
   final bool showCents;
+  final TextStyle? style;
+  final TextStyle? centsStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -136,17 +147,20 @@ class AmountText extends StatelessWidget {
       fontFeatures: const [FontFeature.tabularFigures()],
     );
 
+    final resolvedWholeStyle = style != null ? wholeStyle.merge(style) : wholeStyle;
+    final resolvedCentsStyle = this.centsStyle != null ? centsStyle.merge(this.centsStyle) : centsStyle;
+
     return Text.rich(
       TextSpan(
         children: [
           TextSpan(
             text: '$signPrefix$currencySymbol$formattedWhole',
-            style: wholeStyle,
+            style: resolvedWholeStyle,
           ),
           if (showCents)
             TextSpan(
               text: formattedCents,
-              style: centsStyle,
+              style: resolvedCentsStyle,
             ),
         ],
       ),

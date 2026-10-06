@@ -25,6 +25,16 @@ class AppShadows {
     ),
   ];
 
+  static const List<BoxShadow> nav = floatingNav;
+
+  static const List<BoxShadow> cardHover = [
+    BoxShadow(
+      color: Color(0x14000000), // 8% black
+      blurRadius: 20.0,
+      offset: Offset(0, 8),
+    ),
+  ];
+
   static const List<BoxShadow> circleButton = [
     BoxShadow(
       color: Color(0x0D000000), // 5% black

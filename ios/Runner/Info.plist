@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Salary Tracker</string>
+	<string>Expense Tracker</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -66,5 +66,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Expense Tracker uses your camera to scan paper receipts for instant expense logging.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Expense Tracker needs photo library access to import receipt images.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Expense Tracker uses Face ID to securely unlock your financial data.</string>
 </dict>
 </plist>

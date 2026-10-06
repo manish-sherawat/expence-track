@@ -7,3 +7,26 @@ export 'tag_chip.dart';
 export 'status_pill.dart';
 export 'circle_icon_button.dart';
 export 'app_button.dart';
+
+// Phase 2 additions
+export 'frosted_nav_bar.dart';
+export 'segmented_control.dart';
+export 'dropdown_pill.dart';
+export 'app_selection_controls.dart';
+export 'stat_card.dart';
+export 'progress_bar.dart';
+export 'transaction_tile.dart';
+export 'category_card.dart';
+export 'insight_banner.dart';
+export 'merchant_card.dart';
+export 'receipt_card.dart';
+export 'area_line_chart.dart';
+export 'app_text_field.dart';
+export 'amount_keypad.dart';
+export 'app_date_picker.dart';
+export 'app_bottom_sheet.dart';
+export 'app_toast.dart';
+export 'skeleton.dart';
+export 'pull_to_refresh.dart';
+export 'app_form.dart';
+export 'app_loading_spinner.dart';

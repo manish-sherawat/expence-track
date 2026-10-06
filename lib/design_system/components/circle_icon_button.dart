@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+
 import '../tokens/tokens.dart';
 import 'app_icon.dart';
 import 'pressable.dart';
@@ -10,16 +11,19 @@ class CircleIconButton extends StatelessWidget {
     super.key,
     required this.icon,
     this.onPressed,
+    VoidCallback? onTap,
     this.hasBadge = false,
     this.badgeColor,
     this.iconColor,
     this.size = AppSpacing.minTouchTarget,
     this.iconSize = 20.0,
     this.semanticLabel,
-  });
+  }) : _onTap = onTap ?? onPressed;
 
   final AppIconType icon;
   final VoidCallback? onPressed;
+  final VoidCallback? _onTap;
+  VoidCallback? get effectiveOnPressed => onPressed ?? _onTap;
   final bool hasBadge;
   final Color? badgeColor;
   final Color? iconColor;
@@ -37,7 +41,7 @@ class CircleIconButton extends StatelessWidget {
       width: size,
       height: size,
       child: Pressable(
-        onPressed: onPressed,
+        onPressed: effectiveOnPressed,
         semanticLabel: semanticLabel,
         child: Container(
           width: size,
@@ -52,11 +56,7 @@ class CircleIconButton extends StatelessWidget {
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              AppIcon(
-                icon,
-                size: iconSize,
-                color: resolvedIconColor,
-              ),
+              AppIcon(icon, size: iconSize, color: resolvedIconColor),
               if (hasBadge)
                 Positioned(
                   top: 10.0,

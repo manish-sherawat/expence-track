@@ -46,6 +46,11 @@ class AppColors {
   final Color glassBorder;
   final bool isDark;
 
+  Color get primaryInk => ink;
+  Color get surfaceVariant => isDark ? const Color(0xFF222226) : const Color(0xFFF1F1F3);
+  Color get borderSubtle => border;
+  Color get shadowColor => isDark ? const Color(0xFF000000) : const Color(0x1A000000);
+
   /// Default Light Theme colors (exact values from blueprint Section 4.2).
   static const light = AppColors(
     bg: Color(0xFFFFFFFF),

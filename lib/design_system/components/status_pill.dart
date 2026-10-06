@@ -11,8 +11,10 @@ enum BudgetStatus {
 class StatusPill extends StatelessWidget {
   const StatusPill({
     super.key,
-    required this.status,
+    this.status,
     this.customLabel,
+    this.label,
+    this.isPositive,
   });
 
   factory StatusPill.over({Key? key, String? label}) =>
@@ -21,15 +23,19 @@ class StatusPill extends StatelessWidget {
   factory StatusPill.under({Key? key, String? label}) =>
       StatusPill(key: key, status: BudgetStatus.under, customLabel: label);
 
-  final BudgetStatus status;
+  final BudgetStatus? status;
   final String? customLabel;
+  final String? label;
+  final bool? isPositive;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final text = context.text;
 
-    final isOver = status == BudgetStatus.over;
+    final isOver = status != null
+        ? status == BudgetStatus.over
+        : (isPositive != null ? !isPositive! : false);
     final bg = isOver ? colors.accentTint : colors.positiveTint;
     final fg = isOver ? colors.accent : colors.positive;
     final defaultLabel = isOver ? 'Over' : 'Under';
@@ -44,7 +50,7 @@ class StatusPill extends StatelessWidget {
         borderRadius: AppRadii.pill,
       ),
       child: Text(
-        customLabel ?? defaultLabel,
+        label ?? customLabel ?? defaultLabel,
         style: text.caption.copyWith(
           color: fg,
           fontWeight: FontWeight.w600,

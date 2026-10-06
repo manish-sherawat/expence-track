@@ -14,6 +14,7 @@ class AppThemeData {
 
   final AppColors colors;
   final AppTypography typography;
+  AppTypography get text => typography;
   final bool reduceTransparency;
   final bool reduceMotion;
 

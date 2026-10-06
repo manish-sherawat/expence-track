@@ -8,15 +8,14 @@ import '../../domain/services/i_document_scanner_service.dart';
 class MlKitDocumentScannerService implements IDocumentScannerService {
   final bool isSupportedPlatform;
   final String? sampleReceiptPath;
-  final DocumentScanner? _scannerOverride;
+  final DocumentScanner? scannerOverride;
 
   MlKitDocumentScannerService({
     bool? isSupportedOverride,
     this.sampleReceiptPath,
-    DocumentScanner? scannerOverride,
-  })  : isSupportedPlatform = isSupportedOverride ??
-            (!kIsWeb && (Platform.isAndroid || Platform.isIOS)),
-        _scannerOverride = scannerOverride;
+    this.scannerOverride,
+  }) : isSupportedPlatform = isSupportedOverride ??
+            (!kIsWeb && (Platform.isAndroid || Platform.isIOS));
 
   @override
   Future<String?> scanDocument() async {
@@ -33,7 +32,7 @@ class MlKitDocumentScannerService implements IDocumentScannerService {
         isGalleryImport: true,
       );
 
-      final scanner = _scannerOverride ?? DocumentScanner(options: options);
+      final scanner = scannerOverride ?? DocumentScanner(options: options);
       final DocumentScanningResult result = await scanner.scanDocument();
 
       if (result.images != null && result.images!.isNotEmpty) {

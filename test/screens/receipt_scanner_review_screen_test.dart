@@ -20,9 +20,9 @@ void main() {
           price: Money(199),
         ),
       ],
-      subtotal: Money(199),
-      tax: Money(15),
-      total: Money(214),
+      subtotal: const Money(199),
+      tax: const Money(15),
+      total: const Money(214),
       confidenceScore: 0.99,
       rawText: "Trader Joe's Total 2.14",
     );

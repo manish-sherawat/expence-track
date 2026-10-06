@@ -17,6 +17,13 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen> {
   bool _reduceMotion = false;
   bool _buttonLoading = false;
   int _counter = 0;
+  int _navIndex = 0;
+  String _selectedSegment = 'Month';
+  String _selectedMonth = 'Apr 2026';
+  bool _toggleVal = true;
+  bool _checkboxVal = true;
+  int _radioVal = 1;
+  String _keypadInput = '245.50';
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +46,23 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen> {
 
           return AppScaffold(
             backgroundColor: colors.screenBase,
+            floatingBottomBar: FrostedNavBar(
+              selectedIndex: _navIndex,
+              onItemSelected: (idx) => setState(() => _navIndex = idx),
+              onCenterAction: () => showAppToast(
+                context,
+                message: '✦ Quick Add Action Tapped!',
+                icon: AppIconType.plus,
+              ),
+              leftItems: const [
+                FrostedNavBarItem(icon: AppIconType.wallet, label: 'Wallet'),
+                FrostedNavBarItem(icon: AppIconType.chart, label: 'Analytics'),
+              ],
+              rightItems: const [
+                FrostedNavBarItem(icon: AppIconType.bell, label: 'Alerts'),
+                FrostedNavBarItem(icon: AppIconType.user, label: 'Profile'),
+              ],
+            ),
             topBar: Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.screenHorizontal,
@@ -392,6 +416,435 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen> {
                         ),
                       );
                     }).toList(),
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                _buildSection(
+                  title: '8. SegmentedControl & DropdownPill',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SegmentedControl<String>(
+                        segments: const ['Week', 'Month', 'Year'],
+                        selectedSegment: _selectedSegment,
+                        onSegmentSelected: (seg) => setState(() => _selectedSegment = seg),
+                        labelBuilder: (seg) => seg,
+                      ),
+                      const SizedBox(height: AppSpacing.s16),
+                      Row(
+                        children: [
+                          Text('Select Period:', style: text.label),
+                          const SizedBox(width: AppSpacing.s12),
+                          DropdownPill<String>(
+                            selectedValue: _selectedMonth,
+                            items: const [
+                              DropdownItem(value: 'Mar 2026', label: 'March 2026'),
+                              DropdownItem(value: 'Apr 2026', label: 'April 2026'),
+                              DropdownItem(value: 'May 2026', label: 'May 2026'),
+                            ],
+                            onSelected: (val) => setState(() => _selectedMonth = val),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                _buildSection(
+                  title: '9. StatCards & Animated ProgressBar',
+                  child: Column(
+                    children: [
+                      const Row(
+                        children: [
+                          Expanded(
+                            child: StatCard(
+                              title: 'Total Spent',
+                              amountCents: 321800,
+                              trendPercentage: -4.2,
+                              isPositiveGood: false,
+                              trendContext: 'vs last month',
+                              icon: AppIconType.shopping,
+                            ),
+                          ),
+                          SizedBox(width: AppSpacing.s12),
+                          Expanded(
+                            child: StatCard(
+                              title: 'Daily Average',
+                              amountCents: 10726,
+                              trendPercentage: 2.1,
+                              isPositiveGood: true,
+                              trendContext: '30 days',
+                              icon: AppIconType.chart,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.s16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Budget Used (68%)', style: text.caption),
+                              Text(r'$2,190.00 / $3,218.00', style: text.caption),
+                            ],
+                          ),
+                          const SizedBox(height: AppSpacing.s6),
+                          const ProgressBar(progress: 0.68, height: 6),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                _buildSection(
+                  title: '10. AreaLineChart (Spline + Gradient + Scrub)',
+                  child: const SizedBox(
+                    height: 200,
+                    child: AreaLineChart(
+                      data: [
+                        ChartDataPoint(label: 'Apr 1', valueCents: 12000),
+                        ChartDataPoint(label: 'Apr 5', valueCents: 24000),
+                        ChartDataPoint(label: 'Apr 10', valueCents: 18000),
+                        ChartDataPoint(label: 'Apr 15', valueCents: 32000),
+                        ChartDataPoint(label: 'Apr 20', valueCents: 21000),
+                        ChartDataPoint(label: 'Apr 25', valueCents: 29000),
+                        ChartDataPoint(label: 'Apr 30', valueCents: 38000),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                _buildSection(
+                  title: '11. TransactionTiles (Avatar, AI Chip, Signed)',
+                  child: Column(
+                    children: [
+                      TransactionTile(
+                        title: 'Acme Corporation',
+                        subtitle: 'Bi-weekly Direct Deposit',
+                        amountCents: 842900,
+                        isIncome: true,
+                        timeString: 'Today, 9:00 AM',
+                        icon: AppIconType.wallet,
+                        onTap: () {},
+                      ),
+                      const SizedBox(height: AppSpacing.s8),
+                      TransactionTile(
+                        title: 'Whole Foods Market',
+                        subtitle: 'Groceries & Household',
+                        amountCents: 6784,
+                        isIncome: false,
+                        timeString: '2:45 PM',
+                        aiChipLabel: '✦ Food',
+                        icon: AppIconType.food,
+                        onTap: () {},
+                      ),
+                      const SizedBox(height: AppSpacing.s8),
+                      TransactionTile(
+                        title: 'Sunset Apartments',
+                        subtitle: 'Monthly Rent Payment',
+                        amountCents: 120000,
+                        isIncome: false,
+                        timeString: 'Yesterday',
+                        aiChipLabel: '✦ Rent',
+                        icon: AppIconType.rent,
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                _buildSection(
+                  title: '12. Category Cards & Insight Banner',
+                  child: Column(
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            CategoryCard(
+                              title: 'Food & Dining',
+                              amountCents: 124000,
+                              percentage: 38.5,
+                              icon: AppIconType.food,
+                              onTap: () {},
+                            ),
+                            const SizedBox(width: AppSpacing.s10),
+                            CategoryCard(
+                              title: 'Rent & Utils',
+                              amountCents: 120000,
+                              percentage: 37.0,
+                              icon: AppIconType.rent,
+                              onTap: () {},
+                            ),
+                            const SizedBox(width: AppSpacing.s10),
+                            CategoryCard(
+                              title: 'Shopping',
+                              amountCents: 45000,
+                              percentage: 14.0,
+                              icon: AppIconType.shopping,
+                              onTap: () {},
+                            ),
+                            const SizedBox(width: AppSpacing.s10),
+                            CategoryCard(
+                              title: 'Transport',
+                              amountCents: 32800,
+                              percentage: 10.5,
+                              icon: AppIconType.transport,
+                              onTap: () {},
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.s16),
+                      InsightBanner(
+                        headline: 'AI Smart Insight',
+                        subheadline: 'You spent 12% less on dining this week compared to your 30-day average.',
+                        onTap: () => showAppToast(
+                          context,
+                          message: '✦ Tapped Insight Banner!',
+                          icon: AppIconType.sparkle,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                _buildSection(
+                  title: '13. Receipt Card & Receipt Thumbnail',
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ReceiptThumb(
+                            onTap: () => showAppToast(
+                              context,
+                              message: 'Receipt Thumbnail Tapped!',
+                              icon: AppIconType.receipt,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.s16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('AI Scanned Receipt', style: text.rowTitle),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Rotated paper thumb with dashed perforation line and zoom preview.',
+                                  style: text.caption,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.s16),
+                      const ReceiptCard(
+                        merchantName: 'Whole Foods Market',
+                        dateString: 'April 14, 2026 • 2:45 PM',
+                        items: [
+                          ReceiptLineItem(name: 'Organic Oat Milk', quantity: 2, priceCents: 998),
+                          ReceiptLineItem(name: 'Avocados (Hass)', quantity: 4, priceCents: 600),
+                          ReceiptLineItem(name: 'Greek Yogurt 32oz', quantity: 1, priceCents: 749),
+                          ReceiptLineItem(name: 'Artisan Sourdough', quantity: 1, priceCents: 699),
+                        ],
+                        subtotalCents: 3046,
+                        taxCents: 245,
+                        totalCents: 3291,
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                _buildSection(
+                  title: '14. Merchant Card with Mini History',
+                  child: const MerchantCard(
+                    name: 'Whole Foods Market',
+                    category: 'Groceries & Organic Food',
+                    totalSpentCents: 48920,
+                    visitCount: 8,
+                    icon: AppIconType.food,
+                    recentTransactions: [
+                      MiniTxnCard(dateString: 'Apr 14', title: 'Organic Grocery', amountCents: 3291),
+                      MiniTxnCard(dateString: 'Apr 08', title: 'Weekly Groceries', amountCents: 6784),
+                      MiniTxnCard(dateString: 'Apr 02', title: 'Produce & Snacks', amountCents: 2450),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                _buildSection(
+                  title: '15. AppTextField & AmountKeypad',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const AppTextField(
+                        label: 'Transaction Description',
+                        placeholder: 'e.g. Dinner with Friends...',
+                        prefixIcon: AppIconType.search,
+                      ),
+                      const SizedBox(height: AppSpacing.s16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Keypad Input:', style: text.label),
+                          Text(
+                            r'$' + (_keypadInput.isEmpty ? '0.00' : _keypadInput),
+                            style: text.title2.copyWith(fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.s12),
+                      AmountKeypad(
+                        onDigitPressed: (digit) => setState(() => _keypadInput += digit),
+                        onDecimalPressed: () => setState(() => _keypadInput += '.'),
+                        onBackspacePressed: () => setState(() {
+                          if (_keypadInput.isNotEmpty) {
+                            _keypadInput = _keypadInput.substring(0, _keypadInput.length - 1);
+                          }
+                        }),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                _buildSection(
+                  title: '16. Custom Selection Controls',
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          AppToggle(
+                            value: _toggleVal,
+                            onChanged: (val) => setState(() => _toggleVal = val),
+                          ),
+                          const SizedBox(height: 6),
+                          Text('Toggle', style: text.caption),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          AppCheckbox(
+                            value: _checkboxVal,
+                            onChanged: (val) => setState(() => _checkboxVal = val),
+                          ),
+                          const SizedBox(height: 6),
+                          Text('Checkbox', style: text.caption),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          AppRadio<int>(
+                            value: 1,
+                            groupValue: _radioVal,
+                            onChanged: (val) => setState(() => _radioVal = val),
+                          ),
+                          const SizedBox(height: 6),
+                          Text('Radio', style: text.caption),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                _buildSection(
+                  title: '17. Shimmer Skeleton & Loading Spinner',
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          AppLoadingSpinner(size: 28),
+                          SizedBox(width: AppSpacing.s16),
+                          Skeleton.circle(size: 44),
+                          SizedBox(width: AppSpacing.s12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Skeleton(width: 140, height: 16),
+                                SizedBox(height: 6),
+                                Skeleton(width: double.infinity, height: 12),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                _buildSection(
+                  title: '18. Overlays (AppBottomSheet & AppToast)',
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: AppButton(
+                          label: 'Trigger Toast',
+                          variant: AppButtonVariant.secondary,
+                          onPressed: () => showAppToast(
+                            context,
+                            message: '✦ Notification successfully dispatched!',
+                            icon: AppIconType.sparkle,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.s12),
+                      Expanded(
+                        child: AppButton(
+                          label: 'Bottom Sheet',
+                          onPressed: () => showAppBottomSheet<void>(
+                            context: context,
+                            builder: (ctx) => Padding(
+                              padding: const EdgeInsets.all(AppSpacing.s24),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Zero-Material Bottom Sheet', style: text.sectionTitle),
+                                  const SizedBox(height: AppSpacing.s8),
+                                  Text(
+                                    'Smooth velocity-aware drag dismissal with hairline handle and backdrop blur.',
+                                    style: text.body,
+                                  ),
+                                  const SizedBox(height: AppSpacing.s20),
+                                  AppButton(
+                                    label: 'Dismiss Sheet',
+                                    isFullWidth: true,
+                                    onPressed: () => Navigator.of(ctx).pop(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 

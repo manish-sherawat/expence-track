@@ -38,11 +38,13 @@ class AppRadii {
 
   // Component-specific
   static const BorderRadius card = border20;
+  static const BorderRadius cardLarge = border22;
+  static const BorderRadius fullPill = borderFull;
+  static const BorderRadius pill = borderFull;
   static const BorderRadius innerBalanceCard = border18;
   static const BorderRadius outerBalanceContainer = border22;
   static const BorderRadius categoryCard = border18;
   static const BorderRadius banner = border16;
-  static const BorderRadius pill = borderFull;
   static const BorderRadius circle = borderFull;
   static const BorderRadius receiptThumb = border6;
 }
